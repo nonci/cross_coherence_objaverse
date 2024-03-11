@@ -1,0 +1,42 @@
+# Compiled python modules.
+*.pyc
+
+# Setuptools distribution folder, py.cache
+/dist/
+__pycache__/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info
+
+data/*/*
+data/*
+figures/*
+=======
+
+# Jupyter.
+*.ipynb_checkpoints
+*.ipynb
+
+# Misc.
+*.so
+*.o
+*.swp
+
+# files used for debugging
+*.csv
+*.json
+
+# experiments logging
+exps/*
+
+# txt files
+*.txt
+
+# log files
+*.log
+
+# OLD and debug stuff
+tmp*
+build_hard_dataset_txts.py
+cc_r_precision_hst.py
+filter_objaverse_metadata.py
