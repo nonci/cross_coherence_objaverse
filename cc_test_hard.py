@@ -1,5 +1,6 @@
-SHORT_TO_DEBUG = 5  # interrupt at nth. batch ; -1 to disable
+SHORT_TO_DEBUG = -1  # interrupt at nth. batch ; -1 to disable
 MANUAL_TEST = True
+WRITE_RESULTS = False
 
 import torch, time,sys
 from tqdm import tqdm
@@ -103,12 +104,14 @@ def main():
             )
             
             is_ok = (torch.max(torch.cat((logits0, logits1)), dim=0).indices[0] == gt).item()
-            if MANUAL_TEST and not is_ok : #and abs(logits1-logits0)>=1.:
+            if MANUAL_TEST and is_ok:  # not is_ok
+                #cc_err = abs(logits1-logits0)
+                #if 0.5<cc_err<1:
                 print(txts[gt])
                 print('ids:', ids)
                 print('gt:', gt)
-                print('CCs are:', logits0.item(), logits1.item())
-                input()
+                print('CCs are:', logits0.item(), logits1.item(), '\n')
+                print()
             
             ok += is_ok
             n_examples += 1 # couples counter
@@ -117,8 +120,9 @@ def main():
             print('\r', ok, n_examples, round(ok/n_examples*100, 2), end=' '*20)
             
     print(ok, n_examples, round(ok/n_examples*100, 3), end=' '*20)
-    with open(f'./data/hard_test_results', 'a') as f:
-        f.write(f'K={K}; OK: {ok}; N_EX: {n_examples}; ACCURACY (rounded): {round(ok/n_examples*100, 3)}%; time: {time.ctime(time.time())}\n')
+    if WRITE_RESULTS:
+        with open(f'./data/hard_test_results', 'a') as f:
+            f.write(f'K={K}; OK: {ok}; N_EX: {n_examples}; ACCURACY (rounded): {round(ok/n_examples*100, 3)}%; time: {time.ctime(time.time())}\n')
 
     
 if __name__ == '__main__':

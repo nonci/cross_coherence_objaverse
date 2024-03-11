@@ -103,16 +103,11 @@ def main():
         val_ds_2 = get_sampler(val_i2t, locator, 2, device=DEV_CLOUDS,\
             deterministic=True, drop_last=True)
         
-        
-        continue
-        
-        
         n_examples = 0
         stats = Stats_handler(optimizer)
         listener.train()
         
         # TRAIN PHASE
-        '''
         for b, (orig_ids, clouds, _) in tqdm(enumerate(train_ds), total=(train_size//B_SIZE) if SHORT_TO_DEBUG<0 else SHORT_TO_DEBUG): #
             if SHORT_TO_DEBUG==b: break
             
@@ -165,12 +160,10 @@ def main():
         writer.flush()
         
         lr_scheduler.step() # update lr at every epoch ; pass loss if needed
-        '''
         
         # VAL. PHASE(s):
-        # TO BE REMOVED!!!!!!!!!!!!!!!!!
-        listener.load_state_dict(torch.load(\
-            '/home/dmercanti/dev/cross_coherence_objaverse/exps/01/checkpoint_23.pth')['model_state'])
+        #listener.load_state_dict(torch.load(\
+        #    '/home/dmercanti/dev/cross_coherence_objaverse/exps/01/checkpoint_23.pth')['model_state'])
         
         for bs, val_ds in ( (B_SIZE, val_ds_bs), ):  # (2, val_ds_2),(B_SIZE, val_ds_bs) -> 2 validations are performed
             n_examples = 0
